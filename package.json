@@ -1,0 +1,13 @@
+{
+  "name": "@fbieler/gs-wasm-worker",
+  "version": "1.0.0",
+  "description": "Ghostscript compiled to webassembly for webworkers",
+  "files": ["gs.js", "gs.wasm"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fbieler/gs-wasm-worker.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

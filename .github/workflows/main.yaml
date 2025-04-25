@@ -1,0 +1,38 @@
+name: build and publish
+
+on: workflow_dispatch
+#  release:
+#    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - uses: mymindstorm/setup-emsdk@v14
+      with:
+        version: 4.0.6
+    - name: configure
+      working-directory: ./ghostpdl
+      run: emconfigure ./autogen.sh --host=wasm32-unknown-emscripten --with-libtiff --disable-threading --disable-cups --disable-dbus --disable-gtk --with-drivers=PS --without-tesseract --without-x LDFLAGS='-s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=FS -s EMULATE_FUNCTION_POINTER_CASTS=1 -s BINARYEN_EXTRA_PASSES="--pass-arg=max-func-params@39" -s ENVIRONMENT=worker -s STACK_SIZE=262144'
+    - name: make
+      working-directory: ./ghostpdl
+      run: emmake make -j
+    - name: copy
+      run: cp ./ghostpdl/bin/gs ./gs.js; cp ./ghostpdl/bin/gs.wasm ./gs.wasm
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          scope: "@fbieler"
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
