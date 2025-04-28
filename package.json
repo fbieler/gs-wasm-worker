@@ -6,8 +6,5 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fbieler/gs-wasm-worker.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   }
 }
