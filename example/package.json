@@ -1,0 +1,17 @@
+{
+  "name": "ts_without_dependencies",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "@fbieler/gs-wasm-worker": "1.0.2"
+  },
+  "devDependencies": {
+    "ts-loader": "9.5.2",
+    "webpack": "5.99.7",
+    "webpack-dev-server": "5.2.1"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
+  }
+}

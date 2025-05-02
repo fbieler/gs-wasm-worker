@@ -27,7 +27,7 @@ jobs:
     - name: copy
       run: cp ./ghostpdl/bin/gs ./gs.js; cp ./ghostpdl/bin/gs.wasm ./gs.wasm
     - name: turbopack workaround
-      run: sed -i 's/new URL(/self.location.origin + new URL(/' gs.js
+      run: sed -i 's|new URL(.*)\.href|(() => { const tpw_url = \0; if (tpw_url.startsWith('/')) return self.location.origin + tpw_url; return tpw_url; })()|' gs.js
 
   publish-npm:
     needs: build
