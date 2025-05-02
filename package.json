@@ -1,6 +1,6 @@
 {
   "name": "@fbieler/gs-wasm-worker",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Ghostscript compiled to webassembly for webworkers",
   "files": ["gs.js", "gs.d.ts", "gs.wasm"],
   "repository": {

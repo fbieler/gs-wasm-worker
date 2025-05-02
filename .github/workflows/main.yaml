@@ -5,39 +5,33 @@ on: workflow_dispatch
 #    types: [created]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-        submodules: recursive
-    - uses: mymindstorm/setup-emsdk@v14
-      with:
-        version: 4.0.6
-    - name: cherry-pick function pointer cast fix
-      working-directory: ./ghostpdl
-      run: git cherry-pick -n 8a5c6c0909
-    - name: configure
-      working-directory: ./ghostpdl
-      run: emconfigure ./autogen.sh --host=wasm32-unknown-emscripten --with-libtiff --disable-threading --disable-cups --disable-dbus --disable-gtk --with-drivers=PS --without-tesseract --without-x LDFLAGS='-s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=FS -s ENVIRONMENT=worker -s STACK_SIZE=262144 -s EXPORT_ES6=1 --emit-tsd ../gs.d.ts'
-    - name: make
-      working-directory: ./ghostpdl
-      run: emmake make -j
-    - name: copy
-      run: cp ./ghostpdl/bin/gs ./gs.js; cp ./ghostpdl/bin/gs.wasm ./gs.wasm
-    - name: turbopack workaround
-      run: sed -i 's|new URL(.*)\.href|(() => { const tpw_url = \0; if (tpw_url.startsWith('/')) return self.location.origin + tpw_url; return tpw_url; })()|' gs.js
-
-  publish-npm:
-    needs: build
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 4.0.6
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
+      - name: cherry-pick function pointer cast fix
+        working-directory: ./ghostpdl
+        run: git cherry-pick -n 8a5c6c0909
+      - name: configure
+        working-directory: ./ghostpdl
+        run: emconfigure ./autogen.sh --host=wasm32-unknown-emscripten --with-libtiff --disable-threading --disable-cups --disable-dbus --disable-gtk --with-drivers=PS --without-tesseract --without-x LDFLAGS='-s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=FS -s ENVIRONMENT=worker -s STACK_SIZE=262144 -s EXPORT_ES6=1 --emit-tsd ../gs.d.ts'
+      - name: make
+        working-directory: ./ghostpdl
+        run: emmake make -j
+      - name: copy
+        run: cp ./ghostpdl/bin/gs ./gs.js; cp ./ghostpdl/bin/gs.wasm ./gs.wasm
+      - name: turbopack workaround
+        run: sed -i "s|new URL(.*)\.href|(() => { const tpw_url = \0; if (tpw_url.startsWith('/')) return self.location.origin + tpw_url; return tpw_url; })()|" gs.js
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

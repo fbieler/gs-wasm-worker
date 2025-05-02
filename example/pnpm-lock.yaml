@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@fbieler/gs-wasm-worker':
-        specifier: 1.0.2
-        version: 1.0.2
+        specifier: 1.0.5
+        version: 1.0.5
     devDependencies:
       ts-loader:
         specifier: 9.5.2
@@ -24,8 +24,8 @@ importers:
 
 packages:
 
-  '@fbieler/gs-wasm-worker@1.0.2':
-    resolution: {integrity: sha512-Wk2LkpW3LTuTBLEZ8R3wknpzsSdVMYKdnt+Jbn7EyiO8RmAuqr6UkvbD5Y9aqVjHgwWABOXUAlLj4QUOiYchpw==}
+  '@fbieler/gs-wasm-worker@1.0.5':
+    resolution: {integrity: sha512-LTspeZ+Z5NYXfHtn8mIl9fFe03yfkeUjwgNfwzilHzk8Eb3JR4Y80mCtUGgOJ3TNHzresSj7GinfbPuIvPQN8Q==}
 
   '@jridgewell/gen-mapping@0.3.8':
     resolution: {integrity: sha512-imAbBGkb+ebQyxKgzv5Hu2nmROxoDOXHh80evxdoXNOrvAnVx7zimzc1Oo5h9RlfV4vPXaE2iM5pOFbvOCClWA==}
@@ -1075,7 +1075,7 @@ packages:
 
 snapshots:
 
-  '@fbieler/gs-wasm-worker@1.0.2': {}
+  '@fbieler/gs-wasm-worker@1.0.5': {}
 
   '@jridgewell/gen-mapping@0.3.8':
     dependencies:

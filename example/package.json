@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
-    "@fbieler/gs-wasm-worker": "1.0.2"
+    "@fbieler/gs-wasm-worker": "1.0.5"
   },
   "devDependencies": {
     "ts-loader": "9.5.2",
