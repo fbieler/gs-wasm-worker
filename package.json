@@ -1,10 +1,25 @@
 {
   "name": "@fbieler/gs-wasm-worker",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Ghostscript compiled to webassembly for webworkers",
-  "files": ["gs.js", "gs.d.ts", "gs.wasm"],
+  "type": "module",
+  "files": [
+    "gs.js",
+    "gs.d.ts",
+    "gs.wasm"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fbieler/gs-wasm-worker.git"
+  },
+  "devDependencies": {
+    "@esm-bundle/chai": "4.3.4-fix.0",
+    "@web/dev-server-esbuild": "1.0.4",
+    "@web/test-runner": "0.20.1",
+    "@web/test-runner-puppeteer": "0.18.0"
+  },
+  "scripts": {
+    "build": "./build.sh",
+    "test": "web-test-runner --node-resolve"
   }
 }
